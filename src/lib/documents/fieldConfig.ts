@@ -1,0 +1,110 @@
+export type FieldType = "text" | "date" | "number" | "textarea";
+export type FieldDef = { key: string; label: string; type: FieldType; required?: boolean; group?: "salary" };
+
+/** Salary component keys shared by any letter type that shows a CTC breakup (offer letter today). */
+export const SALARY_COMPONENT_FIELDS: FieldDef[] = [
+  { key: "basicAnnual", label: "Basic (Annual)", type: "number", required: true, group: "salary" },
+  { key: "hraAnnual", label: "House Rent Allowance (Annual)", type: "number", required: true, group: "salary" },
+  { key: "conveyanceAnnual", label: "Conveyance Allowance (Annual)", type: "number", required: true, group: "salary" },
+  { key: "specialAllowanceAnnual", label: "Special Allowance (Annual)", type: "number", required: true, group: "salary" },
+  { key: "employerPfAnnual", label: "Employer PF Contribution (Annual)", type: "number", required: true, group: "salary" },
+];
+
+export const LETTER_TYPE_LABELS: Record<string, string> = {
+  OFFER_LETTER: "Offer Letter",
+  INTERNSHIP_LETTER: "Internship Letter",
+  RELIEVING_LETTER: "Relieving Letter",
+  EXPERIENCE_LETTER: "Experience Letter",
+  APPOINTMENT_LETTER: "Appointment Letter",
+  BACKGROUND_VERIFICATION_CONSENT: "Background Verification Consent",
+};
+
+export const LETTER_TYPE_SOURCE: Record<string, "candidate" | "employee"> = {
+  OFFER_LETTER: "candidate",
+  INTERNSHIP_LETTER: "candidate",
+  RELIEVING_LETTER: "employee",
+  EXPERIENCE_LETTER: "employee",
+  APPOINTMENT_LETTER: "employee",
+  BACKGROUND_VERIFICATION_CONSENT: "candidate",
+};
+
+export const LETTER_FIELDS: Record<string, FieldDef[]> = {
+  OFFER_LETTER: [
+    { key: "issueDate", label: "Issue date", type: "date", required: true },
+    { key: "candidateName", label: "Candidate full name", type: "text", required: true },
+    { key: "candidateFirstName", label: "Candidate first name", type: "text", required: true },
+    { key: "candidateAddress", label: "Candidate address", type: "textarea" },
+    { key: "positionTitle", label: "Position", type: "text", required: true },
+    { key: "department", label: "Department", type: "text", required: true },
+    { key: "reportingManagerName", label: "Reporting manager", type: "text" },
+    { key: "workLocation", label: "Work location", type: "text", required: true },
+    { key: "joiningDate", label: "Date of joining", type: "date", required: true },
+    ...SALARY_COMPONENT_FIELDS,
+    { key: "ctcAnnual", label: "Total Annual CTC (₹)", type: "number", required: true },
+    { key: "offerValidityDate", label: "Offer valid until", type: "date", required: true },
+    { key: "noticePeriodDays", label: "Notice period (days)", type: "number", required: true },
+    { key: "hrName", label: "Signatory name", type: "text", required: true },
+    { key: "hrTitle", label: "Signatory title", type: "text", required: true },
+  ],
+  INTERNSHIP_LETTER: [
+    { key: "issueDate", label: "Issue date", type: "date", required: true },
+    { key: "candidateName", label: "Candidate full name", type: "text", required: true },
+    { key: "candidateFirstName", label: "Candidate first name", type: "text", required: true },
+    { key: "positionTitle", label: "Role", type: "text", required: true },
+    { key: "department", label: "Department", type: "text", required: true },
+    { key: "mentorName", label: "Mentor", type: "text" },
+    { key: "workLocation", label: "Work location", type: "text", required: true },
+    { key: "startDate", label: "Start date", type: "date", required: true },
+    { key: "endDate", label: "End date", type: "date", required: true },
+    { key: "stipendAmount", label: "Monthly stipend (₹)", type: "number" },
+    { key: "hrName", label: "Signatory name", type: "text", required: true },
+    { key: "hrTitle", label: "Signatory title", type: "text", required: true },
+  ],
+  RELIEVING_LETTER: [
+    { key: "issueDate", label: "Issue date", type: "date", required: true },
+    { key: "employeeName", label: "Employee full name", type: "text", required: true },
+    { key: "employeeFirstName", label: "Employee first name", type: "text", required: true },
+    { key: "employeeCode", label: "Employee code", type: "text", required: true },
+    { key: "designation", label: "Designation", type: "text", required: true },
+    { key: "department", label: "Department", type: "text", required: true },
+    { key: "dateOfJoining", label: "Date of joining", type: "date", required: true },
+    { key: "lastWorkingDay", label: "Last working day", type: "date", required: true },
+    { key: "hrName", label: "Signatory name", type: "text", required: true },
+    { key: "hrTitle", label: "Signatory title", type: "text", required: true },
+  ],
+  EXPERIENCE_LETTER: [
+    { key: "issueDate", label: "Issue date", type: "date", required: true },
+    { key: "employeeName", label: "Employee full name", type: "text", required: true },
+    { key: "employeeCode", label: "Employee code", type: "text", required: true },
+    { key: "designation", label: "Designation", type: "text", required: true },
+    { key: "department", label: "Department", type: "text", required: true },
+    { key: "dateOfJoining", label: "Date of joining", type: "date", required: true },
+    { key: "dateOfLeaving", label: "Date of leaving", type: "date", required: true },
+    { key: "employeePronoun", label: "Pronoun (e.g. them/him/her)", type: "text" },
+    { key: "performanceNote", label: "Performance note", type: "textarea" },
+    { key: "hrName", label: "Signatory name", type: "text", required: true },
+    { key: "hrTitle", label: "Signatory title", type: "text", required: true },
+  ],
+  APPOINTMENT_LETTER: [
+    { key: "issueDate", label: "Issue date", type: "date", required: true },
+    { key: "employeeName", label: "Employee full name", type: "text", required: true },
+    { key: "employeeFirstName", label: "Employee first name", type: "text", required: true },
+    { key: "designation", label: "Designation", type: "text", required: true },
+    { key: "department", label: "Department", type: "text", required: true },
+    { key: "reportingManagerName", label: "Reporting manager", type: "text" },
+    { key: "workLocation", label: "Work location", type: "text", required: true },
+    { key: "dateOfJoining", label: "Date of joining", type: "date", required: true },
+    { key: "probationMonths", label: "Probation period (months)", type: "number", required: true },
+    { key: "ctcAnnual", label: "Annual CTC (₹)", type: "number", required: true },
+    { key: "hrName", label: "Signatory name", type: "text", required: true },
+    { key: "hrTitle", label: "Signatory title", type: "text", required: true },
+  ],
+  BACKGROUND_VERIFICATION_CONSENT: [
+    { key: "issueDate", label: "Issue date", type: "date", required: true },
+    { key: "candidateName", label: "Candidate full name", type: "text", required: true },
+    { key: "positionTitle", label: "Position", type: "text", required: true },
+    { key: "verificationPartner", label: "Verification carried out by", type: "text", required: true },
+    { key: "retentionYears", label: "Data retention period (years)", type: "number", required: true },
+    { key: "grievanceContact", label: "Grievance / rights contact (email)", type: "text", required: true },
+  ],
+};
