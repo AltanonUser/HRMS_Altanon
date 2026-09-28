@@ -157,6 +157,21 @@ Reuses the same ARR + URL Rewrite modules already installed for LeadSignal.
 2. Copy `deploy/web.config` to `C:\Repos\hrms\web.config` (it's already
    tracked in the repo at that relative path — just copy it to the site
    root if IIS doesn't pick it up automatically from `deploy/`).
+3. **Required, or every login/mutation 500s**: allow the two server
+   variables the rewrite rule needs to forward the real hostname (without
+   this, ARR sends `x-forwarded-host: 127.0.0.1:3001` instead of the real
+   host, and Next.js's Server Actions same-origin check rejects every
+   request with "Invalid Server Actions request" — this bit us on the
+   first deploy):
+   ```powershell
+   Import-Module WebAdministration
+   Add-WebConfiguration -Filter "system.webServer/rewrite/allowedServerVariables" -PSPath 'MACHINE/WEBROOT/APPHOST' -Value @{name='HTTP_X_FORWARDED_HOST'}
+   Add-WebConfiguration -Filter "system.webServer/rewrite/allowedServerVariables" -PSPath 'MACHINE/WEBROOT/APPHOST' -Value @{name='HTTP_X_FORWARDED_PROTO'}
+   ```
+   (A "duplicate collection entry" error just means it's already allowed —
+   harmless.) `deploy/web.config`'s rewrite rule already sets these via
+   `<serverVariables>`; this step only needs to be done once per VPS, not
+   per site.
 
 ## 9. [LOCAL/GoDaddy] Point the subdomain at the VPS
 
